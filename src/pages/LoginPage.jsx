@@ -1,4 +1,4 @@
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Login } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -15,24 +15,28 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  function onSubmit(data) {
-    setIsSubmitted(true);
-    Login(data)
-      .then((token) => {
-        if (token) {
-          localStorage.setItem("token", token);
+  async function onSubmit(data) {
+    try {
+      setIsSubmitted(true);
 
-          navigate("/");
-          setIsSubmitted(false);
-        } else {
-          setError("root.data", { type: "manual", message: "Invalid Data" });
-          setIsSubmitted(false);
-        }
-      })
-      .catch((error) => {
-        console.error(`Login error : ${error}`);
-        setIsSubmitted(false);
+      const token = await Login({
+        username: data.username,
+        password: data.password,
       });
+
+      if (token) {
+        localStorage.setItem("token", token);
+        navigate("/");
+        setIsSubmitted(false);
+        return; // este return es my importante
+      }
+
+      setError("root.data", { type: "manual", message: "Datos Invalidos" });
+      setIsSubmitted(false);
+    } catch (error) {
+      console.error(`Login error : ${error}`);
+      setIsSubmitted(false);
+    }
   }
 
   return (
@@ -98,7 +102,7 @@ export default function LoginPage() {
           {/* Botón */}
           <button
             type="submit"
-            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg shadow-md transition-colors duration-300"
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 rounded-lg shadow-md transition-colors duration-300 disabled:opacity-50 disabled:cursor-progress"
             disabled={
               isSubmitted
             } /* esto desctiva el botton y con useForm con la funcion isSubmitted podemos desabiliar el botton para no lanar varias peticiones */

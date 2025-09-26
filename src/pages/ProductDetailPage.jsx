@@ -19,7 +19,7 @@ export default function ProductDetailPage() {
   return (
     <main className="p-6 max-w-5xl mx-auto ">
       <Link
-        className="absolute top-4 right-4 bg-[#2a2a2a] hover:bg-[#333] text-white rounded-full p-2 shadow-md transition-colors duration-300"
+        className="absolute top-30 right-4  bg-[#2a2a2a] hover:bg-[#333] text-white rounded-full p-2 shadow-md transition-colors duration-300"
         to={`/products#product-${id}`}
       >
         ❌
