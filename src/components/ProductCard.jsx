@@ -11,14 +11,14 @@ export default function ProductCard({ id, title, price, thumbnail }) {
     if (hashId === elementId) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
-  });
+  }, []);
 
   return (
     <article
       ref={ref}
       id={elementId}
       className={clsx(
-        "flex flex-col border border-white/10 rounded-xl overflow-hidden bg-[#1f1f1f] shadow-md hover:shadow-lg transition-shadow duration-300",
+        "flex flex-col border border-white/10 rounded-xl overflow-hidden bg-[#1f1f1f] shadow-md hover:shadow-lg transition-shadow duration-300 ",
         { "shadow-md shadow-cyan-600": window.location.hash === elementId }
       )}
     >

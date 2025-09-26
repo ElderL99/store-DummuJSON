@@ -15,6 +15,7 @@ export default function ProductDetailPage() {
         console.error(`[get product error]: ${error}`);
       });
   }, []);
+
   return (
     <main className="p-6 max-w-5xl mx-auto ">
       <Link
