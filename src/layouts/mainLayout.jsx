@@ -5,7 +5,7 @@ export default function MainLayout() {
     <main>
       <NavBar />
       <Outlet />
-      {/* Outlet es u componente dinamico que puede renderizar cualqueir cosa */}
+      {/* Outlet es un componente dinamico que puede renderizar cualqueir cosa */}
     </main>
   );
 }

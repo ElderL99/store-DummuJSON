@@ -21,11 +21,11 @@ export default function NavBar() {
     if (isLoggedIn) {
       localStorage.removeItem("token");
       setIsLoggetIn(false);
-      navigate("/login");
+      navigate("/auth/login");
     }
 
     if (!isLoggedIn) {
-      navigate("/login");
+      navigate("/auth/login");
     }
   }
 
