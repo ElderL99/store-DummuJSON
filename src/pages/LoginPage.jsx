@@ -3,6 +3,7 @@ import { Login } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import clsx from "clsx";
+import { useLogin } from "../hooks/useLogin";
 
 export default function LoginPage() {
   const {
@@ -13,31 +14,7 @@ export default function LoginPage() {
   } = useForm({});
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  async function onSubmit(data) {
-    try {
-      setIsSubmitted(true);
-
-      const token = await Login({
-        username: data.username,
-        password: data.password,
-      });
-
-      if (token) {
-        localStorage.setItem("token", token);
-        navigate("/");
-        setIsSubmitted(false);
-        return; // este return es my importante
-      }
-
-      setError("root.data", { type: "manual", message: "Datos Invalidos" });
-      setIsSubmitted(false);
-    } catch (error) {
-      console.error(`Login error : ${error}`);
-      setIsSubmitted(false);
-    }
-  }
+  const { isSubmitted, submitLogin } = useLogin({ Login, setError });
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-[#1a1a1a] px-4">
@@ -46,7 +23,10 @@ export default function LoginPage() {
           Iniciar Sesión
         </h1>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <form
+          onSubmit={handleSubmit(submitLogin)}
+          className="flex flex-col gap-5"
+        >
           {/* Username */}
           <div className="flex flex-col text-left">
             <label className="text-sm text-gray-300 mb-1">Usuario</label>
@@ -97,6 +77,13 @@ export default function LoginPage() {
                 {errors.password.message}
               </span>
             )}
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3 top-9 text-sm text-cyan-400 hover:underline"
+            >
+              {showPassword ? "🙈" : "👀"}
+            </button>
           </div>
 
           {/* Botón */}
