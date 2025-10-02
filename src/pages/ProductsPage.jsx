@@ -1,18 +1,8 @@
-import { useEffect, useState } from "react";
-import { getAllProductos } from "../api/api.js";
-
 import ProductCard from "../components/ProductCard.jsx";
+import { useProducts } from "../hooks/hooks.js";
 
 export default function ProductsPage() {
-  const [products, setProductos] = useState([]);
-
-  useEffect(() => {
-    getAllProductos()
-      .then((data) => setProductos(data))
-      .catch((error) => {
-        console.error(`[get products error] : ${error}`);
-      });
-  }, []);
+  const { products } = useProducts();
 
   return (
     <main className="p-4 flex flex-col gap-8">

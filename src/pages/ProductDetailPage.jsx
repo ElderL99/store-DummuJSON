@@ -1,20 +1,9 @@
-import { useEffect, useState } from "react";
-import { getProductById } from "../api/api";
 import { Link, useParams } from "react-router-dom";
+import { useProduct } from "../hooks/hooks";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
-  const [product, setProduct] = useState({});
-
-  useEffect(() => {
-    getProductById(id)
-      .then((data) => {
-        setProduct(data);
-      })
-      .catch((error) => {
-        console.error(`[get product error]: ${error}`);
-      });
-  }, []);
+  const { product } = useProduct(id);
 
   return (
     <main className="p-6 max-w-5xl mx-auto ">
